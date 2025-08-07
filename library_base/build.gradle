@@ -1,0 +1,28 @@
+apply from:"../featureConfig.build.gradle"
+
+android {
+    namespace 'com.cfl.library_base'
+
+    defaultConfig {
+        //当独立运行的时候才有对应的 applicationId
+        if (rootProject.ext.isModule){
+            applicationId "com.cfl.library_base"
+        }
+    }
+
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+}

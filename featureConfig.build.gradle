@@ -1,0 +1,68 @@
+//1.插件
+//扩展-》项目集成application 与 kotlin
+if (rootProject.ext.isModule){
+    //应用扩展 不在是gradle库中进行引用 而是直接给链接
+    apply plugin :"com.android.application"
+}else{
+    apply plugin: "com.android.library"
+}
+
+apply plugin: "org.jetbrains.kotlin.android"
+//2.android配置
+android {
+    namespace 'com.cfl.shoppingmallproject'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.cfl.shoppingmallproject"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode = versionCode
+        versionName = versionName
+        //这个默认配置是啥？
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //使用ARouter --> 引入java的编译
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    //dataBing必须引入的
+    dataBinding{
+        enable true
+    }
+
+//    //模块独立独立运行AndroidManifest.xml文件的配置
+//    sourceSet {
+//        main {
+//            if (rootProject.ext.isModule){
+//                //单独运行的模块
+//                mainfest.srcFile 'src/main/alone/AndroidMianfest.xml'
+//            }else{
+//                //需要合并到app主module
+//                mainfest.srcFile 'src/main/AndroidMainfest.xml'
+//            }
+//        }
+//    }
+}
+
+//3.依赖 --》 公用模块不需要构建依赖
