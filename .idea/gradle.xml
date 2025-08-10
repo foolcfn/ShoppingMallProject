@@ -11,7 +11,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/feature_classify" />
+            <option value="$PROJECT_DIR$/feature_detail" />
             <option value="$PROJECT_DIR$/feature_recommend" />
+            <option value="$PROJECT_DIR$/feature_user" />
+            <option value="$PROJECT_DIR$/library_base" />
+            <option value="$PROJECT_DIR$/network" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

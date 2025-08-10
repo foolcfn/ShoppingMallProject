@@ -13,8 +13,11 @@ lifecycleLivedataKtx = "2.6.1"
 lifecycleViewmodelKtx = "2.6.1"
 navigationFragmentKtx = "2.6.0"
 navigationUiKtx = "2.6.0"
+arouter = "1.5.2"
+autosize = "v1.2.1"
 
 [libraries]
+#Android官方库
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -27,6 +30,11 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+#android第三方库
+arouter = { group = "com.alibaba", name = "arouter-api", version.ref = "arouter" }
+arouterCompiler = { group = "com.alibaba", name = "arouter-compiler", version.ref = "arouter" }
+#适配方案
+autosize = {group = "com.github.JessYanCoding",name = "AndroidAutoSize",version.ref = "autosize"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
