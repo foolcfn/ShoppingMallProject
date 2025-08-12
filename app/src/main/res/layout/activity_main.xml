@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 />
             <RadioButton
-                android:id="@+id/user"
+                android:id="@+id/rb_user"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="我的"
