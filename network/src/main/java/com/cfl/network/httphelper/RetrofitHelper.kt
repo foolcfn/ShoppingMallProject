@@ -1,10 +1,12 @@
 package com.cfl.network.httphelper
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 //单例静态实体
@@ -36,10 +38,11 @@ object RetrofitHelper {
 			.build()
 	}
 
+	//更方便接入为java static代码
 	@JvmStatic
 	suspend inline fun <reified S> get():S {
-		//withContext --> 用于给协程 。。。
-		return withContext(Dispatcher.IO) {
+		//withContext --> 挂起函数 在某一线程池下运行的代码块
+		return withContext(Dispatchers.IO) {
 			retrofit.create(S::class.java)
 		}
 
