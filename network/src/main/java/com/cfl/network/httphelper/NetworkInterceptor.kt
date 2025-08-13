@@ -13,11 +13,8 @@ import okhttp3.ResponseBody
 import okio.IOException
 import java.nio.charset.Charset
 
-//网络拦截器 对网络模块的处理
+//网络拦截器 对网络模块的处理（只对response与request进行处理）
 class NetworkInterceptor: Interceptor {
-	//一次性加载这些内容就不能使用flow
-	val shopUrlList =
-		listOf<String>()
 
 	override fun intercept(chain: Interceptor.Chain): Response {
 		//拿到上一chain处理好的request
@@ -31,7 +28,7 @@ class NetworkInterceptor: Interceptor {
 
 	}
 
-
+	//这里request的处理只是添加一些header
 	private fun onResquestChange(
 		request: Request,
 		chain: Interceptor.Chain
@@ -57,23 +54,29 @@ class NetworkInterceptor: Interceptor {
 		return requestBuild.build()
 	}
 
+	/**
+	 * 这里的ResponseChange 对response.body进行了处理
+	 * 将body字符串类型转换成对应的BaseBean<*>类型
+	 *
+	 * 含义：只对response返回成功，并且自定义的码值为200时返回response 其余的情况拿不到response
+	 */
 	private fun onResponseChange(
 		response: Response,
 		chain: Interceptor.Chain
 	): Response {
 		if (response.isSuccessful) {
-			//source大文件数据流
+			// source大文件数据流
 			var source = response.body?.source()
 			source?.request(Long.MAX_VALUE)
-			var buffer = source?.buffer
-			//创建缓冲区副本（缓冲区不受影响），并按照utf-8的形式进行解码
+			var buffer = source?.buffer  //拿到源的缓冲区
+			// 创建缓冲区副本（缓冲区不受影响），并按照utf-8的形式进行解码
 			var body = buffer?.clone()?.readString(Charset.forName("UTF-8"))
 
-			//服务器返回成功 但是Body为空
+			// 服务器返回成功 但是Body为空
 			if (TextUtils.isEmpty(body) && emptyRspCode(response.code)) {
 				throw IOException("server response error")
 			}
-			//报这两个码值则追加内容  （注意区分：response的码值 与 response中code码值的区别，前者是网络协议的码值，后者是自定义的码值）
+			// 报这两个码值则追加内容  （注意区分：response的码值 与 response中code码值的区别，前者是网络协议的码值，后者是自定义的码值）
 			if (emptyRspCode(response.code)) {
 				return response
 					.newBuilder()
@@ -83,7 +86,7 @@ class NetworkInterceptor: Interceptor {
 						)
 					).build()
 			}
-
+			//部分转换，对于data部分还是 Any类型字符串
 			val bean: BaseBean<*> =
 				Gson().fromJson(body, object : TypeToken<BaseBean<*>>() {}.type)
 			if (bean.code == 200) {
@@ -99,9 +102,13 @@ class NetworkInterceptor: Interceptor {
 					throw IOException("ApiException : response:$response,bean:$bean")
 				}
 			}
+			// 当bean.code != 200时，需要有返回值或抛出异常
+			throw IOException("ApiException: bean code is not 200, code=${bean.code}")
+		} else {
+			throw IOException("Response is not successful, code=${response.code}")
 		}
-		return response
 	}
+
 	private fun emptyRspCode(code:Int): Boolean{
 		return code == 204 || code == 205
 	}

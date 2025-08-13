@@ -18,6 +18,9 @@ object RetrofitHelper {
 	const val WIRTE_TIME_OUT_SECONEDS = 20 //最长写入时间
 	const val BASE_URL = "http://shop.fzqq.fun/addons/shopro"
 
+	//缓存思路：1.如果本地配置了.cache(NetWorkCacheHelper.createCacheFile()),并且缓存头中开启缓存，在有持久化缓存
+			//2.如何本地没配置	.cache(NetWorkCacheHelper.createCacheFile())，但缓存头中开启缓存，则缓存只在该次进程中有效
+
 	//创建okhttpClient  concurrent的时间单位，代替 DateTime
 	private val okHttpClient =
 		OkHttpClient.Builder()
@@ -25,6 +28,9 @@ object RetrofitHelper {
 			.readTimeout(20, TimeUnit.SECONDS)
 			.writeTimeout(20, TimeUnit.SECONDS)
 			.retryOnConnectionFailure(true)		//是否支持失败时重试
+			.cache(NetWorkCacheHelper.createCacheFile())
+			.addNetworkInterceptor(ForceCacheInterceptor())
+			.addInterceptor(NetworkInterceptor())
 			.build()
 
 	val retrofit: Retrofit by lazy {
@@ -45,6 +51,5 @@ object RetrofitHelper {
 		return withContext(Dispatchers.IO) {
 			retrofit.create(S::class.java)
 		}
-
 	}
 }
