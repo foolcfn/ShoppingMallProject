@@ -13,7 +13,10 @@ class MonitorInterceptor: Interceptor {
 	override fun intercept(chain: Interceptor.Chain): Response {
 		initNotification()
 		//记得更改
-		return chain.proceed(chain.request())
+		val request = chain.request()
+//		var
+		return chain.proceed(request)
+
 
 	}
 
