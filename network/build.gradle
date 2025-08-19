@@ -29,8 +29,14 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+    api libs.room
+    api libs.room.runtime
+    api libs.room.paging
+    api libs.gson
+    api libs.paging
 
     api libs.okhttp
     api libs.retrofit
     api libs.retrofitgson
+
 }
