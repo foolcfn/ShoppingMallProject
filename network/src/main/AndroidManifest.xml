@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoppingMallProject">
         <activity
+            android:name=".httphelper.monitor.ui.MonitorDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".httphelper.monitor.ui.MonitorActivity"
             android:exported="false" />
         <activity

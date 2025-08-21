@@ -43,19 +43,20 @@ class MonitorAdapter : PagingDataAdapter<Monitor, MonitorViewHolder>(diffCallbac
 	inner class MonitorViewHolder(var itemMonitorBinding: ItemMonitorBinding) : RecyclerView.ViewHolder(itemMonitorBinding.root) {
 
 		fun bind(monitor: Monitor) {
+			//进行数据绑定
+			itemMonitorBinding.monitor = monitor
 			// 绑定数据到 View dataBing下·不需要实现这一步，但是还要实现点击事件
 			itemMonitorBinding.root.setOnClickListener {
 				//存在点击回调
-				onClickEvent.onThemeListClick()
+				onClickEvent.onThemeListClick(monitor)
 			}
-
-
 		}
 	}
+
 	//设置一个点击接口
 	interface OnItemClickListener{
 		//点击单元框会进行跳转
-		fun onThemeListClick();
+		fun onThemeListClick(monitor: Monitor);
 	}
 }
 

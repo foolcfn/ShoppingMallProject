@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cfl.network.httphelper.monitor.db.Monitor" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/Server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Url"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/Server_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{data.url}"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/Server" />
+
+        <TextView
+            android:id="@+id/Data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Method"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/Server_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/data_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="@{}"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/Data" />
+
+        <TextView
+            android:id="@+id/contentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protocol"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/data_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/contentType_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/contentType" />
+
+        <TextView
+            android:id="@+id/transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/contentType_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/transfer_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/transfer" />
+
+        <TextView
+            android:id="@+id/Connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Response"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/transfer_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/connection_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/Connection" />
+
+        <TextView
+            android:id="@+id/vary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SSL"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/connection_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/vary_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/vary" />
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ReqTime"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/vary_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/header_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/header" />
+
+        <TextView
+            android:id="@+id/response_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ResTime"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/header_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/response_time_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/response_time" />
+
+        <TextView
+            android:id="@+id/during"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="during"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/response_time_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/during_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/during" />
+
+        <TextView
+            android:id="@+id/request_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ReqSize"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/during_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/request_size_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/request_size" />
+
+        <TextView
+            android:id="@+id/response_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ResSize"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/request_size_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/response_size_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/response_size" />
+
+        <TextView
+            android:id="@+id/total_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TotalSize"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/response_size_content"
+            app:layout_constraintLeft_toLeftOf="@id/Server"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/total_size_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@id/line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/total_size" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

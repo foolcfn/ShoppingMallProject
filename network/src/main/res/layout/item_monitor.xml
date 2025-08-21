@@ -48,6 +48,7 @@
             android:shadowColor="#4285F4"
             android:text="@{String.valueOf(monitor.id)}"
             tools:text="1"
+            android:textColor="@color/white"
             android:textSize="10dp"
             app:layout_constraintTop_toTopOf="@id/code"
             app:layout_constraintRight_toRightOf="@id/contentSize"

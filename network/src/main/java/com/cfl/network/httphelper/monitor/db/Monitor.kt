@@ -3,6 +3,7 @@ package com.cfl.network.httphelper.monitor.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 //Bean属性
 @Entity(tableName = MonitorDatabase.tableName)
@@ -55,7 +56,7 @@ class Monitor(
 	@ColumnInfo(name = "error")
 	val error: String?
 
-) {
+): Serializable {
 
 	//关于Models内部的一些处理逻辑
 
@@ -98,7 +99,7 @@ class Monitor(
 data class MonitorPair(
 	val name: String,
 	val value: String
-)
+): Serializable
 
 //关于Monitor状态的处理
 internal enum class MonitorStatus{

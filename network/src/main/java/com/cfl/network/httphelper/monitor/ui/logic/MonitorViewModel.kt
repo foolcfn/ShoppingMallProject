@@ -1,5 +1,6 @@
 package com.cfl.network.httphelper.monitor.ui.logic
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -12,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MonitorViewModel : ViewModel() {
+
+	var monitor: MutableLiveData<Monitor> = MutableLiveData<Monitor>()
 
 	//viewModel进行数据加载，得到分页数据
 	@OptIn(ExperimentalPagingApi::class)		//实验性Api
