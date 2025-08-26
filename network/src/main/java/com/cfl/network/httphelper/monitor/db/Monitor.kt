@@ -64,6 +64,8 @@ class Monitor(
 		private const val DEFAULT_RESPONSE_CODE = -1024
 	}
 
+	val notificationText: String = "$responseCode  $path"
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true  // 如果是同一个对象
 		if (other !is Monitor) return false  // 如果类型不同
