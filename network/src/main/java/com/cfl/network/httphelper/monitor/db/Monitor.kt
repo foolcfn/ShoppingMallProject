@@ -95,6 +95,56 @@ class Monitor(
 				error == other.error
 	}
 
+	fun copy(
+		id: Long = this.id,
+		url: String = this.url,
+		scheme: String = this.scheme,
+		host: String = this.host,
+		path: String = this.path,
+		query: String = this.query,
+		requestTime: Long = this.requestTime,
+		method: String = this.method,
+		requestHeaders: List<MonitorPair> = this.requestHeaders,
+		requestContentLength: Long = this.requestContentLength,
+		requestContentType: String = this.requestContentType,
+		requestBody: String? = this.requestBody,
+		protocol: String = this.protocol,
+		responseHeaders: List<MonitorPair> = this.responseHeaders,
+		responseBody: String? = this.responseBody,
+		responseContentType: String = this.responseContentType,
+		responseContentLength: Long = this.responseContentLength,
+		responseTime: Long = this.responseTime,
+		responseTlsVersion: String = this.responseTlsVersion,
+		responseCipherSuite: String = this.responseCipherSuite,
+		responseMessage: String = this.responseMessage,
+		error: String? = this.error
+	): Monitor {
+		return Monitor(
+			id = id,
+			url = url,
+			scheme = scheme,
+			host = host,
+			path = path,
+			query = query,
+			requestTime = requestTime,
+			method = method,
+			requestHeaders = requestHeaders,
+			requestContentLength = requestContentLength,
+			requestContentType = requestContentType,
+			requestBody = requestBody,
+			protocol = protocol,
+			responseHeaders = responseHeaders,
+			responseBody = responseBody,
+			responseContentType = responseContentType,
+			responseContentLength = responseContentLength,
+			responseTime = responseTime,
+			responseTlsVersion = responseTlsVersion,
+			responseCipherSuite = responseCipherSuite,
+			responseMessage = responseMessage,
+			error = error
+		)
+	}
+
 }
 
 //关于响应头的定义  属性：内容
