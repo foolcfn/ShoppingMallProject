@@ -1,8 +1,6 @@
 package com.cfl.network.httphelper.monitor.ui
 
-import android.R
 import android.app.Application
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -11,17 +9,13 @@ import android.os.Build
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.cfl.network.httphelper.monitor.db.Monitor
-import com.cfl.network.httphelper.monitor.db.MonitorDao
 import com.cfl.network.httphelper.monitor.db.MonitorDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
+
 
 object MonitorNotification {
 
