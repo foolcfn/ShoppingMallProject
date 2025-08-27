@@ -1,15 +1,8 @@
 package com.cfl.shoppingmallproject.ui
 
-import android.os.Bundle
 import android.view.MotionEvent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.launcher.ARouter
 import com.cfl.feature_classify.ui.ClassifyFragment
 import com.cfl.feature_detail.ui.DetailFragment
@@ -20,9 +13,10 @@ import com.cfl.library_base.ui.activity.BaseActivity
 import com.cfl.shoppingmallproject.BR
 import com.cfl.shoppingmallproject.R
 import com.cfl.shoppingmallproject.databinding.ActivityMainBinding
+import java.lang.ref.WeakReference
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){
-    //创建fragment单例
+    //创建fragment单例 -》 预加载
     val recommentFragment:RecommentFragment by lazy {
         ARouter.getInstance().build(ARouterPath.Recommend.FRAGMENT_RECOMMENT)
             .navigation() as RecommentFragment
@@ -47,7 +41,9 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){
         )
 
     //设置当前Fragment,默认recommentFragment
-    var currentFragment:Fragment = recommentFragment
+    var currentFragment:Fragment = getFragment(0)
+    //当前的下标
+    var currentTag:String = tag[0]
 
     override fun getBindingViewModelId(): Int {
         return BR.viewModel
@@ -70,15 +66,15 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){
         beginTransaction.add(R.id.fragment_view,currentFragment,"recomment")
         mDataBinding?.rgNativgtion?.setOnCheckedChangeListener{group,checkId->
             when(checkId){
-                R.id.rb_recomment -> swicthFragment(recommentFragment,tag[0])
-                R.id.rb_classify -> swicthFragment(classifyFragment,tag[1])
-                R.id.rb_user -> swicthFragment(userFragment,tag[3])
-                R.id.rb_detail -> swicthFragment(detailFragment,tag[2])
+                R.id.rb_recomment -> swicthFragment(getFragment(0),tag[0])
+                R.id.rb_classify -> swicthFragment(getFragment(1),tag[1])
+                R.id.rb_detail -> swicthFragment(getFragment(2),tag[2])
+                R.id.rb_user -> swicthFragment(getFragment(3),tag[3])
             }
         }
     }
 
-    private fun swicthFragment(newFragment: Fragment,tag:String) {
+    private fun swicthFragment(newFragment: Fragment, tag:String) {
         supportFragmentManager.beginTransaction().apply {
             if (newFragment === currentFragment){
                 //立即执行，避免异步导致的错误 ，同步
@@ -96,16 +92,50 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){
             //设置当前fragment
             currentFragment = taggleFragment
             commitNow()
-
         }
     }
+
+    private fun getFragment(index:Int):Fragment =
+        when(index){
+            0 -> recommentFragment
+            1 -> classifyFragment
+            2 -> detailFragment
+            else -> userFragment
+        }
 
     override fun initData() {
     }
 
-    //左滑 右滑
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return super.onTouchEvent(event)
-    }
+        var action = event?.action
+        var startX = 0F
 
+        when(action){
+            MotionEvent.ACTION_DOWN ->{
+                startX = event?.getX() as Float
+            }
+
+            MotionEvent.ACTION_UP ->{
+                event?.apply {
+                    var endX = getX()
+                    var dx = endX - startX
+                    var index = tag.indexOf(currentTag)
+                    var rindex = index - 1
+                    var lindex = index + 1
+                    //右滑前翻页
+                    if (dx > 400 && rindex > 0){
+                        swicthFragment(getFragment(rindex),tag[rindex])
+                        return true
+                    }
+                    //左滑后翻页
+                    if (dx < -400 && lindex < 3 ){
+                        swicthFragment(getFragment(lindex),tag[lindex])
+                        return true
+                    }
+                }
+
+            }
+        }
+        return true
+    }
 }
