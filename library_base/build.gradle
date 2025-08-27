@@ -14,15 +14,20 @@ android {
 
 dependencies {
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.material
-    implementation libs.androidx.constraintlayout
-    implementation libs.androidx.lifecycle.livedata.ktx
-    implementation libs.androidx.lifecycle.viewmodel.ktx
-    implementation libs.androidx.navigation.fragment.ktx
-    implementation libs.androidx.navigation.ui.ktx
+    api libs.androidx.core.ktx
+    api libs.androidx.appcompat
+    api libs.material
+    api libs.androidx.constraintlayout
+    api libs.androidx.lifecycle.livedata.ktx
+    api libs.androidx.lifecycle.viewmodel.ktx
+    api libs.androidx.navigation.fragment.ktx
+    api libs.androidx.navigation.ui.ktx
+    //引人Arouter实现完全的模块解耦
+    api libs.arouter
+    api libs.arouterCompiler
+    api libs.autosize
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+
 }

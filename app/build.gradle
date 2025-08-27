@@ -55,4 +55,16 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+
+    if(rootProject.ext.isModule){
+        //只集成基础模块
+        implementation project(":library_base")
+    }else{
+        //集成全部模块
+        implementation project(":library_base")
+        implementation project(":feature_classify")
+        implementation project(":feature_detail")
+        implementation project(":feature_user")
+        implementation project(":feature_recommend")
+    }
 }
