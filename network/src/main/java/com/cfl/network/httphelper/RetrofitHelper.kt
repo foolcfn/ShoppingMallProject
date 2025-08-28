@@ -1,6 +1,7 @@
 package com.cfl.network.httphelper
 
 import android.util.Log
+import com.cfl.network.httphelper.monitor.db.Monitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -31,6 +32,7 @@ object RetrofitHelper {
 			.cache(NetWorkCacheHelper.createCacheFile())
 			.addNetworkInterceptor(ForceCacheInterceptor())
 			.addInterceptor(NetworkInterceptor())
+			.addInterceptor(MonitorInterceptor())		//添加可视化视图
 			.build()
 
 	val retrofit: Retrofit by lazy {

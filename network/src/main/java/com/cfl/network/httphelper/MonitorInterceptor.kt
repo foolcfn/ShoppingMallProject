@@ -1,8 +1,6 @@
 package com.cfl.network.httphelper
 
 import android.app.Application
-import android.net.UrlQuerySanitizer
-import android.provider.SyncStateContract.Helpers.insert
 import com.cfl.network.httphelper.monitor.db.Monitor
 import com.cfl.network.httphelper.monitor.db.MonitorDatabase
 import com.cfl.network.httphelper.monitor.db.MonitorPair
@@ -11,10 +9,16 @@ import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.ResponseBody
+import okhttp3.internal.http.promisesBody
 import okio.Buffer
 import okio.EOFException
-import java.util.stream.Collector
+import okio.GzipSource
 
+/**
+ * MonitorIntercepter是网络拦截器
+ *
+ */
 class MonitorInterceptor: Interceptor {
 
 	//保证在不同线程中的可见性
@@ -42,7 +46,7 @@ class MonitorInterceptor: Interceptor {
 		}
 
 		//4.将response转换成monitor,并对数据库进行更新
-		monitor = processResponse()
+		monitor = processResponse(response = response,monitor = monitor )
 
 		//5.拿到后不进行任何处理只读取monitor后更新数据
 		update(monitor = monitor)
@@ -53,11 +57,74 @@ class MonitorInterceptor: Interceptor {
 		response: Response,
 		monitor: Monitor
 	): Monitor {
+
+		//进行Header的转换 只有键值对的形式可以使用 it.first it,second
 		val requestHeaders = response.request.headers.map{
-			MonitorPair(name = it.first,)
+			MonitorPair(name = it.first, value = it.second)
+		}
+		val responseHeaders = response.headers.map {
+			MonitorPair(name = it.first,it.second)
+		}
+		val body = response.body
+		val responseContentType = body?.contentType()?.toString() ?: ""
+		var responseContentLength = body?.contentLength()
+		val responseBody = if (
+			!response.promisesBody()		//响应体不为null
+			|| response.headers.bodyHasUnknownEncoding()	//存在未知的编码格式
+			){
+				""
+		}else{
+			//拿到解压后的body(gzip算法)
+			val buffer = getNativeSource(
+				responseBody = body!!,
+				headers = response.headers
+			)
+			responseContentLength = buffer.size		//重新定义buffer的大小
+			if (buffer.isProbablyUtf8() && responseContentLength != 0L){
+				//返回UTF_8类型的编码
+				val charset = body.contentType()?.charset() ?: Charsets.UTF_8
+
+				//注意：为什么是buffer.clone(),流式数据，通过指针读取数据，但读一次指针就不在开头了，所以要去读副本buffer.clone()
+				buffer.clone().readString(charset = charset)
+			}else{
+				""
+			}
+		}
+		return monitor.copy(
+			requestTime = response.sentRequestAtMillis,
+			responseTime = response.receivedResponseAtMillis,
+			protocol = response.protocol.toString(),
+			responseCode = response.code,
+			responseMessage = response.message,
+			responseTlsVersion = response.handshake?.tlsVersion?.javaName ?: "",
+			responseCipherSuite = response.handshake?.cipherSuite?.javaName ?: "",
+			requestHeaders = requestHeaders,
+			responseHeaders = responseHeaders,
+			responseContentType = responseContentType,
+			responseContentLength = responseContentLength!!,
+			responseBody = responseBody
+		)
+	}
+
+	private fun getNativeSource(
+		responseBody: ResponseBody,
+		headers: Headers
+	): Buffer {
+		//判断是否使用了gzip压缩算法，若使用则进行解压
+		var source = responseBody.source()	//大文件读取时可以提高性能 拿到数据
+		//body.writeTo()  ==》 source.request() 将文件写入缓冲区
+		source.request(byteCount = Long.MAX_VALUE)
+		var buffer = source.buffer
+		//判断读取的网络数据是否经过了gzip压缩
+		if (headers.bodyGzipped()){
+			//如果是gzip类型 直接解码 body(gzip) -> body
+			GzipSource(source = buffer.clone()).use { responseBody ->
+				buffer = Buffer()
+				buffer.writeAll(source = responseBody)	 //这是解析完后的body
+			}
 		}
 
-
+		return buffer
 	}
 
 	//作用：安全的初始化Notification
@@ -158,7 +225,17 @@ class MonitorInterceptor: Interceptor {
 			responseMessage = "",
 			error = null
 		)
+	}
 
+	//插入操作
+	private fun insert(monitor: Monitor): Monitor {
+		val id = MonitorDatabase.instance.monitorDao().insertMonitor(monitor = monitor)
+		return monitor.copy(id = id)
+	}
+
+	//数据库更新
+	private fun update(monitor: Monitor){
+		MonitorDatabase.instance.monitorDao().updateMonitor(monitor = monitor)
 	}
 
 	//判断header头中请求头的编码
@@ -195,17 +272,10 @@ class MonitorInterceptor: Interceptor {
 		}catch (e: EOFException){
 			false
 		}
-
 	}
 
-	//插入操作
-	private fun insert(monitor: Monitor): Monitor {
-		val id = MonitorDatabase.instance.monitorDao().insertMonitor(monitor = monitor)
-		return monitor.copy(id = id)
-	}
-
-	//数据库更新
-	private fun update(monitor: Monitor){
-		MonitorDatabase.instance.monitorDao().updateMonitor(monitor = monitor)
+	private fun Headers.bodyGzipped(): Boolean{
+		//直接查询Header的Map => this[""]
+		return this["Content-encoding"].equals(other = "gzip",ignoreCase = true)
 	}
 }

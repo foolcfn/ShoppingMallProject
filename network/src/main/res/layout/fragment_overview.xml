@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="@{data.}"
+            android:text="@{data.method}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/Data" />
@@ -72,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{data.protocol}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/contentType" />
@@ -92,6 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{`Complete`}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/transfer" />
@@ -112,6 +114,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{data.responseCode}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/Connection" />
@@ -132,6 +135,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="Yes"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/vary" />
@@ -152,6 +156,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{String.valueOf(data.responseTime)}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/header" />
@@ -172,6 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{String.valueOf(data.requestTime)}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/response_time" />
@@ -192,6 +198,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{String.valueOf(data.responseTime - data.requestTime)}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/during" />
@@ -212,6 +219,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{String.valueOf(data.requestContentLength)}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/request_size" />
@@ -232,6 +240,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{String.valueOf(data.responseContentLength)}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/response_size" />
@@ -252,6 +261,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:text="@{data.responseContentLength + data.requestContentLength}"
             app:layout_constraintLeft_toRightOf="@id/line"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/total_size" />
